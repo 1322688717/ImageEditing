@@ -1,10 +1,15 @@
 package com.ice.imageediting;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -18,6 +23,7 @@ public class EditActivity extends AppCompatActivity {
 
     private ImageView imageView;
     private Uri imageUri;
+    private Bitmap originalBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +40,46 @@ public class EditActivity extends AppCompatActivity {
 
         Button rotateButton = findViewById(R.id.rotateButton);
         rotateButton.setOnClickListener(v -> rotateImage());
+
+        // 在这里初始化 originalBitmap
+        imageView.post(() -> {
+            imageView.setDrawingCacheEnabled(true);
+            originalBitmap = Bitmap.createBitmap(imageView.getDrawingCache());
+            imageView.setDrawingCacheEnabled(false);
+        });
+
+        // 亮度和对比度调整的示例
+        SeekBar brightnessSeekBar = findViewById(R.id.brightnessSeekBar);
+        brightnessSeekBar.setMax(200); // 设置最大值
+        brightnessSeekBar.setProgress(100); // 设置初始进度为中间位置
+        brightnessSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                adjustBrightness(progress - 100); // 假设 SeekBar 范围是 0-200，0 为原始亮度
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+
+        SeekBar contrastSeekBar = findViewById(R.id.contrastSeekBar);
+        contrastSeekBar.setMax(200); // 设置最大值
+        contrastSeekBar.setProgress(100); // 设置初始进度为中间位置
+        contrastSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                adjustContrast(progress / 100.0f); // 假设 SeekBar 范围是 0-200，1 为原始对比度
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
     }
 
     private void cropImage() {
@@ -48,10 +94,62 @@ public class EditActivity extends AppCompatActivity {
         }
     }
 
+    private int currentRotation = 0; // 记录当前旋转的角度
 
     private void rotateImage() {
-        // 这里可以添加旋转图片的代码
-        // 你可以考虑使用 Matrix 来旋转 Bitmap
+        currentRotation = (currentRotation + 90) % 360; // 每次旋转累加90度
+
+        if (originalBitmap != null) {
+            // 使用 Matrix 设置旋转角度
+            Matrix matrix = new Matrix();
+            matrix.postRotate(currentRotation);
+
+            // 基于原始图像创建旋转后的位图
+            Bitmap rotatedBitmap = Bitmap.createBitmap(
+                    originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, true
+            );
+
+            imageView.setImageBitmap(rotatedBitmap); // 将旋转后的图像显示到 ImageView
+        } else {
+            Toast.makeText(this, "No image to rotate", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+
+
+    private void adjustBrightness(int value) {
+        // 调整亮度的代码
+        // 这里可以使用 ColorMatrix 来调整亮度
+        // 创建 ColorMatrix 对象
+        ColorMatrix colorMatrix = new ColorMatrix();
+        // 调整亮度
+        colorMatrix.set(new float[]{
+                1, 0, 0, 0, value,  // Red
+                0, 1, 0, 0, value,  // Green
+                0, 0, 1, 0, value,  // Blue
+                0, 0, 0, 1, 0       // Alpha
+        });
+
+        // 创建 ColorMatrixColorFilter
+        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+        // 设置 ImageView 的 ColorFilter
+        imageView.setColorFilter(filter);
+    }
+
+    private void adjustContrast(float value) {
+        // 调整对比度的代码
+        ColorMatrix colorMatrix = new ColorMatrix();
+        colorMatrix.set(new float[]{
+                value, 0, 0, 0, 0, // Red
+                0, value, 0, 0, 0, // Green
+                0, 0, value, 0, 0, // Blue
+                0, 0, 0, 1, 0      // Alpha
+        });
+
+        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+        imageView.setColorFilter(filter);
     }
 
     @Override
