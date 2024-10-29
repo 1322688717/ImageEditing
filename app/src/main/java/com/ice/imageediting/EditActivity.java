@@ -80,6 +80,62 @@ public class EditActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
+
+        SeekBar saturationSeekBar = findViewById(R.id.saturationSeekBar);
+        saturationSeekBar.setMax(200);
+        saturationSeekBar.setProgress(100);
+        saturationSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                adjustSaturation(progress / 100.0f);
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+
+        SeekBar temperatureSeekBar = findViewById(R.id.temperatureSeekBar);
+        temperatureSeekBar.setMax(200);
+        temperatureSeekBar.setProgress(100);
+        temperatureSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                adjustTemperature(progress - 100);
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+
+        // 模糊和锐化效果的 SeekBar
+        SeekBar blurSeekBar = findViewById(R.id.blurSeekBar);
+        blurSeekBar.setMax(100);
+        blurSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                applyBlurEffect(progress);
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+
+        SeekBar sharpnessSeekBar = findViewById(R.id.sharpnessSeekBar);
+        sharpnessSeekBar.setMax(200);
+        sharpnessSeekBar.setProgress(100);
+        sharpnessSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                applySharpnessEffect(progress / 100.0f);
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
     }
 
     private void cropImage() {
@@ -150,6 +206,28 @@ public class EditActivity extends AppCompatActivity {
 
         ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
         imageView.setColorFilter(filter);
+    }
+
+    private void adjustSaturation(float value) {
+        ColorMatrix colorMatrix = new ColorMatrix();
+        colorMatrix.setSaturation(value);
+        imageView.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
+    }
+
+    private void adjustTemperature(int value) {
+        ColorMatrix colorMatrix = new ColorMatrix();
+        float red = 1 + (value / 100f);
+        float blue = 1 - (value / 100f);
+        colorMatrix.setScale(red, 1, blue, 1);
+        imageView.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
+    }
+
+    private void applyBlurEffect(int radius) {
+        // Implement blur effect here
+    }
+
+    private void applySharpnessEffect(float value) {
+        // Implement sharpness effect here
     }
 
     @Override
