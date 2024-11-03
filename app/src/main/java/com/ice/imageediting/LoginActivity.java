@@ -33,8 +33,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void loginUser(View view) {
-        String username = etUsername.getText().toString();
-        String password = etPassword.getText().toString();
+        String username = etUsername.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
+
+        if (username.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "用户名和密码不能为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         User user = new User(username, password);
         ApiService apiService = ApiClient.getRetrofitInstance().create(ApiService.class);
@@ -44,33 +49,25 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    // 登录成功，获取响应数据（假设响应体包含用户信息或token）
                     LoginResponse loginResponse = response.body();
-
-                    // 显示成功消息
                     Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-
-                    // 跳转到 MainActivity
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK); // 清除栈中的所有活动
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                    finish(); // 结束当前活动
+                    finish();
                 } else {
-                    // 登录失败，显示失败消息
                     Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                // 打印错误信息
                 Log.e("LoginActivity", "登录请求失败: " + t.getMessage(), t);
                 Toast.makeText(LoginActivity.this, "网络请求失败: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
-
         });
     }
+
 
     public void goToRegister(View view) {
         Intent intent = new Intent(this, RegisterActivity.class);
