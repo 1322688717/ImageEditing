@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_edit"
+        android:icon="@drawable/ic_launcher_background"
+        android:title="编辑" />
+    <item
+        android:id="@+id/nav_beautify"
+        android:icon="@drawable/ic_launcher_background"
+        android:title="美化" />
+    <item
+        android:id="@+id/nav_my"
+        android:icon="@drawable/ic_launcher_background"
+        android:title="我的" />
+</menu>

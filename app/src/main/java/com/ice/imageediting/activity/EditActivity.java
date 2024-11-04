@@ -1,4 +1,4 @@
-package com.ice.imageediting;
+package com.ice.imageediting.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ice.imageediting.R;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.File;

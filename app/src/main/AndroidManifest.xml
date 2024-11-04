@@ -18,38 +18,38 @@
         android:theme="@style/Theme.ImageEditing"
         tools:targetApi="31">
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".activity.RegisterActivity"
             android:exported="false" />
         <activity android:name="com.yalantis.ucrop.UCropActivity" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".activity.SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".SaveShareActivity"
+            android:name=".activity.SaveShareActivity"
             android:exported="false" />
         <activity
-            android:name=".FrameActivity"
+            android:name=".activity.FrameActivity"
             android:exported="false" />
         <activity
-            android:name=".TextStickerActivity"
+            android:name=".activity.TextStickerActivity"
             android:exported="false" />
         <activity
-            android:name=".BeautyActivity"
+            android:name=".activity.BeautyActivity"
             android:exported="false" />
         <activity
-            android:name=".FilterActivity"
+            android:name=".activity.FilterActivity"
             android:exported="false" />
         <activity
-            android:name=".EditActivity"
+            android:name=".activity.EditActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true" />
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".activity.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

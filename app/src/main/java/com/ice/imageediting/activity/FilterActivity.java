@@ -1,4 +1,4 @@
-package com.ice.imageediting;
+package com.ice.imageediting.activity;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ice.imageediting.R;
 import com.ice.imageediting.adapter.FilterAdapter;
 
 import java.util.Arrays;

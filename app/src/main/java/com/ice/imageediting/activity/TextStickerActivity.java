@@ -1,4 +1,4 @@
-package com.ice.imageediting;
+package com.ice.imageediting.activity;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.ice.imageediting.R;
 
 public class TextStickerActivity extends AppCompatActivity {
 

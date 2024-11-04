@@ -1,4 +1,4 @@
-package com.ice.imageediting;
+package com.ice.imageediting.activity;
 
 
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.ice.imageediting.R;
 import com.ice.imageediting.api.ApiClient;
 import com.ice.imageediting.api.ApiService;
 

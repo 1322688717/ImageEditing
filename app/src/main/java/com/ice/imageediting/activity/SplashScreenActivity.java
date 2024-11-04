@@ -1,10 +1,12 @@
-package com.ice.imageediting;
+package com.ice.imageediting.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.ice.imageediting.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
